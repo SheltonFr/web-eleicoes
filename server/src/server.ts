@@ -8,6 +8,7 @@ const PORT: number = 3000 || process.env.PORT;
 const app: Express = express();
 
 app.use(cors({ origin: "*" }));
+app.use(express.json());
 
 connectDatabase();
 app.use("/api/", Routes);
