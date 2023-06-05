@@ -1,10 +1,17 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
+export enum UserType {
+  VOTER,
+  CANDIDATE,
+  ADMIN,
+}
 export interface IUser {
   usename: string;
   password: string;
   createdAt: Date;
+  isActive: boolean;
+  type: UserType;
 }
 
 const UserSchema = new mongoose.Schema<IUser>({
@@ -17,6 +24,16 @@ const UserSchema = new mongoose.Schema<IUser>({
     type: "string",
     required: true,
     select: false,
+  },
+
+  type: {
+    type: Number,
+    enum: UserType,
+  },
+
+  isActive: {
+    type: Boolean,
+    default: false,
   },
 
   createdAt: {
