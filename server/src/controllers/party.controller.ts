@@ -113,6 +113,24 @@ const update = async (req: Request, res: Response) => {
   }
 };
 
-const deleteOne = async (req: Request, res: Response) => {};
+const deleteOne = async (req: Request, res: Response) => {
+  const id = req.id;
+  try {
+    const objectId = new mongoose.Types.ObjectId(id);
+    const party = await partyService.findById(objectId);
+
+    if (!party) {
+      return res.status(404).send({ message: "No party found" });
+    }
+
+    await partyService.deleteOne(party._id);
+
+    return res.sendStatus(204);
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: `Creat Party Controller: ${error}` });
+  }
+};
 
 export default { create, update, deleteOne, findAll, findById, findByName };
