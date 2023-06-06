@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import z from "zod";
 import partyService from "../services/party.service";
+import mongoose from "mongoose";
 
 const PartySchema = z
   .object({
@@ -28,7 +29,24 @@ const create = async (req: Request, res: Response) => {
   }
 };
 
-const findById = async (req: Request, res: Response) => {};
+const findById = async (req: Request, res: Response) => {
+  const id = req.id;
+
+  try {
+    const objectId = new mongoose.Types.ObjectId(id);
+    const party = await partyService.findById(objectId);
+
+    if (!party) {
+      return res.status(404).send({ message: "No party found" });
+    }
+
+    return res.status(200).send({ party });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: `Find Party by Id Controller: ${error}` });
+  }
+};
 
 const findAll = async (req: Request, res: Response) => {
   try {
@@ -45,7 +63,7 @@ const findAll = async (req: Request, res: Response) => {
   } catch (error) {
     return res
       .status(500)
-      .send({ message: `Creat Party Controller: ${error}` });
+      .send({ message: `Find All Parties Controller: ${error}` });
   }
 };
 

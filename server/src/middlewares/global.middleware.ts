@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import mongoose, { Types } from "mongoose";
-import userService from "../services/user.service";
 
 export const validId = (req: Request, res: Response, next: NextFunction) => {
   const id = req.params.id;
