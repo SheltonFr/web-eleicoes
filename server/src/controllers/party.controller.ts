@@ -30,7 +30,24 @@ const create = async (req: Request, res: Response) => {
 
 const findById = async (req: Request, res: Response) => {};
 
-const findAll = async (req: Request, res: Response) => {};
+const findAll = async (req: Request, res: Response) => {
+  try {
+    const parties = await partyService.findAll();
+
+    return res.status(200).send({
+      parties: parties.map((party) => ({
+        id: party._id,
+        name: party.name,
+        candidates: party.candidates,
+        createdAt: party.createdAt,
+      })),
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: `Creat Party Controller: ${error}` });
+  }
+};
 
 const findByName = async (req: Request, res: Response) => {};
 
