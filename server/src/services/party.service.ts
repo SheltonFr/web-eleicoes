@@ -9,4 +9,7 @@ const findById = async (id: Types.ObjectId) => Party.findById(id);
 
 const findByName = async (name: string) => Party.findOne({ name });
 
-export default { create, findAll, findById, findByName };
+const update = async (id: Types.ObjectId, name: string) =>
+  Party.findOneAndUpdate({ _id: id }, { name: name });
+
+export default { create, findAll, findById, findByName, update };

@@ -85,7 +85,33 @@ const findByName = async (req: Request, res: Response) => {
   return res.send(name);
 };
 
-const update = async (req: Request, res: Response) => {};
+const update = async (req: Request, res: Response) => {
+  const id = req.id;
+
+  try {
+    const { name } = PartySchema.parse(req.body);
+
+    const objectId = new mongoose.Types.ObjectId(id);
+    const party = await partyService.findById(objectId);
+
+    if (!party) {
+      return res.status(404).send({ message: "No party found" });
+    }
+
+    await partyService.update(party._id, name);
+    const updatedParty = await partyService.findById(objectId);
+
+    return res.status(200).send({ party: updatedParty });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).send(error.issues);
+    }
+
+    return res
+      .status(500)
+      .send({ message: `Update Party Controller: ${error}` });
+  }
+};
 
 const deleteOne = async (req: Request, res: Response) => {};
 
