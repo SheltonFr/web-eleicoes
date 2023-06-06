@@ -67,7 +67,23 @@ const findAll = async (req: Request, res: Response) => {
   }
 };
 
-const findByName = async (req: Request, res: Response) => {};
+const findByName = async (req: Request, res: Response) => {
+  const name = req.query.name;
+
+  try {
+    const party = await partyService.findByName(name?.toString() ?? "");
+
+    if (!party) {
+      return res.status(404).send({ message: "No party Found" });
+    }
+    return res.status(200).send({ party });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: `Find Party by Name Controller: ${error}` });
+  }
+  return res.send(name);
+};
 
 const update = async (req: Request, res: Response) => {};
 

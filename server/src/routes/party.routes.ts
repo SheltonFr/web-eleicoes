@@ -6,6 +6,7 @@ const router: Router = Router();
 
 router.post('/', partyController.create)
 router.get('/', partyController.findAll)
+router.get('/search', partyController.findByName)
 router.get('/:id', validId, partyController.findById)
 
 export default router;

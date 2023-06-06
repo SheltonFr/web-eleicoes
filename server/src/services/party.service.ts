@@ -7,4 +7,6 @@ const findAll = async () => Party.find();
 
 const findById = async (id: Types.ObjectId) => Party.findById(id);
 
-export default { create, findAll, findById };
+const findByName = async (name: string) => Party.findOne({ name });
+
+export default { create, findAll, findById, findByName };
