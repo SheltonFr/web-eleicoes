@@ -7,7 +7,7 @@ export enum UserType {
   ADMIN,
 }
 export interface IUser {
-  usename: string;
+  username: string;
   password: string;
   createdAt: Date;
   isActive: boolean;
@@ -15,7 +15,7 @@ export interface IUser {
 }
 
 const UserSchema = new mongoose.Schema<IUser>({
-  usename: {
+  username: {
     type: "string",
     required: true,
     unique: true,

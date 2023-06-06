@@ -23,7 +23,7 @@ const login = async (req: Request, res: Response) => {
     if (!isPasswordsValid) {
       return res
         .status(400)
-        .send({ message: "Email or password do not match" });
+        .send({ message: "Username or password do not match" });
     }
 
     if (!user?.isActive) {
