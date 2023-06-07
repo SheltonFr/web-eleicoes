@@ -39,7 +39,7 @@ export const voterColumns = [
         renderCell: (params) => {
             return (
                 <div className="cellWithImg">
-                    <img src={"https://gravatar.com/avatar/jose?d=identicon"} alt="avatar" />
+                    <img src={params.row.avatar} alt="avatar" />
                     {params.row.user.username}
                 </div>
             )
@@ -79,7 +79,7 @@ export const candidateColumns = [
         renderCell: (params) => {
             return (
                 <div className="cellWithImg">
-                    <img src={"https://gravatar.com/avatar/jose?d=identicon"} alt="avatar" />
+                    <img src={params.row.avatar} alt="avatar" />
                     {params.row.name}
                 </div>
             )

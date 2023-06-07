@@ -1,7 +1,6 @@
 import { useContext, useState } from 'react'
 import './login.scss'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../../firebase'
+import api from '../../api/api.js'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 
@@ -19,32 +18,28 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        dispatch({ type: "LOGIN", payload: user })
-        navigate("/")
-      })
-      .catch((error) => {
-        setError(true)
-      });
 
-  }
+    api.post('/auth/login', {
+      username: email,
+      password: password
+    }).then((res) => {
+      const token = res.data.token;
+      dispatch({ type: "LOGIN", payload: token })
+      navigate("/")
+    // eslint-disable-next-line no-unused-vars
+    }).catch((error) => {
+      setError(true)
+    });
 
-
-  const clearFields = () => {
-    setEmail("")
-    setPassword("")
-    setError(false)
   }
 
   return (
     <div className="login">
       <form onSubmit={handleLogin}>
-        <input type="email" placeholder='Email address' onChange={e => setEmail(e.target.value)} />
+        <input type="text" placeholder='Username' onChange={e => setEmail(e.target.value)} />
         <input type="password" placeholder='Password' onChange={e => setPassword(e.target.value)} />
         <button type="submit">Login</button>
-        {error && <span>Wrong Email or Password</span>}
+        {error && <span>Wrong Username or Password</span>}
       </form>
     </div>
   )

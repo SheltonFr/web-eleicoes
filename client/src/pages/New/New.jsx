@@ -2,11 +2,12 @@
 import './new.scss'
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Navbar from '../../components/Navbar/Navbar'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { createCandidate, createParty } from '../../repository/repository'
 import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import { fetchParties } from '../../repository/repository'
+import { AuthContext } from '../../context/AuthContext'
 
 
 const New = ({ inputs, title }) => {
@@ -16,6 +17,8 @@ const New = ({ inputs, title }) => {
   const [parties, setParties] = useState([])
   const [party, setParty] = useState("")
   const location = useLocation();
+
+  const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
 
@@ -53,7 +56,7 @@ const New = ({ inputs, title }) => {
 
     if (location.pathname.includes('candidates')) {
       console.log({ ...data, party })
-      createCandidate({ ...data, party }).then(() => {
+      createCandidate({ ...data, party }, currentUser).then(() => {
         navigate('/candidates')
       }).catch((err) => console.log(err))
       return;

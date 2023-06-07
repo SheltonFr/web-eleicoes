@@ -22,8 +22,10 @@ const Sidebar = () => {
         <ul>
           <p className="title">MAIN</p>
           <li>
-            <DashboardIcon className='icon' />
-            <span>Dashboard</span>
+            <NavLink to={'/'}>
+              <DashboardIcon className='icon' />
+              <span>Dashboard</span>
+            </NavLink>
           </li>
           <p className="title">LISTS</p>
           <li>

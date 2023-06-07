@@ -2,21 +2,52 @@ import './single.scss'
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Navbar from '../../components/Navbar/Navbar'
 import NormalChart from '../../components/NormalChart/NormalChart'
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import Table from '../../components/Table/Table'
+import { useParams, useLocation } from 'react-router-dom'
+import { Button } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { fetchVoter, toggleActiveVoter } from '../../repository/repository'
 
 
-
-const data = [
-  { name: 'January', Total: 1200 },
-  { name: 'January', Total: 2200 },
-  { name: 'January', Total: 800 },
-  { name: 'January', Total: 1600 },
-  { name: 'January', Total: 900 },
-  { name: 'January', Total: 1700 }
-];
 
 const Single = () => {
 
+  const { id } = useParams();
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState({ user: { username: '', isActive: false } })
+  const location = useLocation();
+
+  useEffect(() => {
+    fetchData()
+
+  }, [data])
+
+  const fetchData = () => {
+    setData(true)
+    if (location.pathname.includes('candidates')) {
+      return;
+    }
+
+    if (location.pathname.includes('voters')) {
+      fetchVoter(id)
+        .then((res) => setData(res.data))
+        .catch((err) => console.log(err))
+        .finally(() => setOpen(false))
+      return;
+    }
+
+    if (location.pathname.includes('partys')) {
+      return;
+    }
+  }
+
+  const toggleActiveVoterState = async () => {
+    await toggleActiveVoter(id)
+    fetchData()
+
+  }
 
   return (
     <div className='single'>
@@ -25,33 +56,38 @@ const Single = () => {
         <Navbar />
         <div className="top">
           <div className="left">
-            <div className="editButton">Edit</div>
             <h1 className="title">Information</h1>
             <div className="item">
               <img
-                src="https://images.pexels.com/photos/1619801/pexels-photo-1619801.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src={data.avatar}
                 alt=""
                 className="itemImg" />
               <div className="details">
-                <h1 className="itemTitle">Jane Doe</h1>
+                <h1 className="itemTitle">{data.name}</h1>
                 <div className="detailItem">
-                  <span className="itemKey">Email:</span>
-                  <span className="itemValue">Jane@gmail.com</span>
+                  <span className="itemKey">Id:</span>
+                  <span className="itemValue">{data._id}</span>
                 </div>
                 <div className="detailItem">
-                  <span className="itemKey">Phone:</span>
-                  <span className="itemValue">+258 872 321 421</span>
+                  <span className="itemKey">BI:</span>
+                  <span className="itemValue">{data.bi}</span>
                 </div>
                 <div className="detailItem">
-                  <span className="itemKey">Address:</span>
-                  <span className="itemValue">Matola, Mozambique</span>
-                </div>
-                <div className="detailItem">
-                  <span className="itemKey">Country</span>
-                  <span className="itemValue">Mz</span>
+                  <span className="itemKey">Username</span>
+                  <span className="itemValue">{data.user.username}</span>
                 </div>
               </div>
             </div>
+
+            {location.pathname.includes('voters') &&
+              <div className="button-container">
+                {data.user.isActive ?
+                  <Button className='btn' variant='contained' color='error' onClick={toggleActiveVoterState}>Desactivar Conta</Button>
+                  :
+                  <Button className='btn' variant='contained' color='success' onClick={toggleActiveVoterState}>Activar conta</Button>
+                }
+              </div>
+            }
           </div>
           <div className="right">
             <NormalChart aspect={3 / 1} title="User Spanding (Last 6 Months)" />
@@ -62,6 +98,14 @@ const Single = () => {
           <Table />
         </div>
       </div>
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   )
 }
