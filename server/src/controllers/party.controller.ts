@@ -5,15 +5,18 @@ import mongoose from "mongoose";
 
 const PartySchema = z
   .object({
-    name: z.string().nonempty(),
+    name: z
+      .string()
+      .nonempty(),
+    description: z.string(),
   })
   .strict({ message: "O nome é Obrigatório!" });
 
 const create = async (req: Request, res: Response) => {
   try {
-    const { name } = PartySchema.parse(req.body);
+    const { name, description } = PartySchema.parse(req.body);
 
-    const party = await partyService.create(name);
+    const party = await partyService.create(name, description);
 
     if (!party) {
       return res
@@ -23,6 +26,15 @@ const create = async (req: Request, res: Response) => {
 
     return res.status(201).json(party);
   } catch (error) {
+    if (error instanceof mongoose.MongooseError) {
+      console.log(error.message);
+      return res.status(400).send({ message: error.message });
+    }
+
+    if (error instanceof z.ZodError) {
+      console.log(error.message);
+      return res.status(400).send(error.issues);
+    }
     return res
       .status(500)
       .send({ message: `Creat Party Controller: ${error}` });

@@ -3,6 +3,7 @@ import { ICandidate } from "./Candidate";
 import { IVoter } from "./Voter";
 interface IParty {
   name: string;
+  description: string;
   candidates: Types.DocumentArray<ICandidate>;
   voters: Types.DocumentArray<IVoter>;
   createdAt: Date;
@@ -13,6 +14,10 @@ const PartySchema = new mongoose.Schema<IParty>({
     type: "String",
     required: true,
     unique: true,
+  },
+  description: {
+    type: "String",	
+    required: false
   },
   candidates: [{ type: Types.ObjectId, ref: "Candidate" }],
   voters: [{ type: Types.ObjectId, ref: "Voter" }],

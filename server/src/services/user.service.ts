@@ -6,6 +6,7 @@ const create = async (username: string, password: string, type: UserType) =>
 
 const findById = async (_id: Types.ObjectId) => User.findById(_id);
 
+const findAll = async () => User.find();
 const updateUserState = async (_id: Types.ObjectId, isActive: boolean) =>
   User.findOneAndUpdate({ _id }, { isActive });
-export default { create, findById, updateUserState };
+export default { create, findById, updateUserState, findAll };

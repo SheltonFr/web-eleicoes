@@ -19,7 +19,10 @@ const create = async (req: Request, res: Response) => {
         .send({ message: "An error occurred while creating User" });
     }
 
-    const activeUser = await userService.updateUserState(user._id, !user.isActive);
+    const activeUser = await userService.updateUserState(
+      user._id,
+      !user.isActive
+    );
 
     return res.status(201).send(activeUser);
   } catch (error) {
@@ -31,4 +34,21 @@ const create = async (req: Request, res: Response) => {
   }
 };
 
-export default { create };
+const findAll = async (req: Request, res: Response) => {
+  try {
+    const users = await userService.findAll();
+
+    return res.status(200).send({
+      users: users.map((user) => ({
+        id: user._id,
+        username: user.username,
+        isActive: user.isActive,
+        type: user.type,
+      })),
+    });
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+};
+
+export default { create, findAll };
