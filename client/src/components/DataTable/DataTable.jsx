@@ -1,28 +1,41 @@
 /* eslint-disable react/prop-types */
 import './datatable.scss'
 import { DataGrid } from '@mui/x-data-grid';
-import { userColumns } from '../../datatableSource';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import api from '../../api/api';
+import { fetchCandidates, fetchParties, fetchVoters } from '../../repository/repository';
 
 
 
-const DataTable = ({title}) => {
+const DataTable = ({ title, dataColumns, query }) => {
 
   const [data, setData] = useState([])
-  const [isUserLocation, setIsUSerLocation] = useState(true);
   const location = useLocation();
-
   useEffect(() => {
 
-    setIsUSerLocation(location.pathname.includes('users'))
-    api.get('/user').then((res) => setData(res.data.users))
+    fetchData();
 
-  }, [])
+  }, [location.pathname])
+
+  const fetchData = () => {
+    if (location.pathname.includes('candidates')) {
+      fetchCandidates().then((res) => setData(res.data.result))
+      return;
+    }
+
+    if (location.pathname.includes('voters')) {
+      fetchVoters().then((res) => setData(res.data.result))
+      return;
+    }
+
+    if (location.pathname.includes('partys')) {
+      fetchParties().then((res) => setData(res.data.result))
+      return;
+    }
+  }
 
   // eslint-disable-next-line no-unused-vars
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     //TODO: Delete User
   }
 
@@ -32,7 +45,7 @@ const DataTable = ({title}) => {
       field: 'action', headerName: 'Acções', width: 200, renderCell: (params) => {
         return (
           <div className='cellAction'>
-            <NavLink to={'/users/id'}>
+            <NavLink to={`/${query}s/${params.row.id}`}>
               <div className="viewButton">Ver</div>
             </NavLink>
             <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>Apagar</div>
@@ -44,16 +57,16 @@ const DataTable = ({title}) => {
 
   return (
     <div className='datatable'>
-      <div className={`datatableTitle ${isUserLocation ? 'invisible' : ''}`}>
+      <div className={`datatableTitle ${query === 'voter' ? 'invisible' : ''}`}>
         {title}
-        <NavLink to={'/users/new'} className='link' >
+        <NavLink to={`/${query}s/new`} className='link' >
           Novo
         </NavLink>
       </div>
       <DataGrid
         className='dataGrid'
         rows={data}
-        columns={userColumns.concat(actionColumn)}
+        columns={dataColumns.concat(actionColumn)}
         paginationModel={{ page: 0, pageSize: 10 }}
         checkboxSelection
       />

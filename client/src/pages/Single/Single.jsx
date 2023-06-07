@@ -5,6 +5,7 @@ import NormalChart from '../../components/NormalChart/NormalChart'
 import Table from '../../components/Table/Table'
 
 
+
 const data = [
   { name: 'January', Total: 1200 },
   { name: 'January', Total: 2200 },
@@ -15,6 +16,8 @@ const data = [
 ];
 
 const Single = () => {
+
+
   return (
     <div className='single'>
       <Sidebar />

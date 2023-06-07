@@ -5,7 +5,7 @@ export interface ICandidate {
   _id: mongoose.Types.ObjectId;
   name: string;
   avatar?: string;
-  party: mongoose.Types.ObjectId;
+  party?: mongoose.Types.ObjectId;
   voters: Types.DocumentArray<IVoter>;
 }
 

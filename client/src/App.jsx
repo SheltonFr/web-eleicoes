@@ -10,6 +10,7 @@ import './style/dark.scss'
 import { useContext } from 'react'
 import { DarkModeContext } from './context/darkModeContext'
 import { AuthContext } from './context/AuthContext'
+import { candidateColumns, partiesColumns, voterColumns } from './datatableSource'
 
 function App() {
 
@@ -37,26 +38,10 @@ function App() {
               }
             />
 
-            <Route path='users'>
-              <Route index
-                element={
-                  <RequireAuth>
-                    <List />
-                  </RequireAuth>
-                } />
-              <Route
-                path=':userId'
-                element={
-                  <RequireAuth>
-                    <Single />
-                  </RequireAuth>
-                } />
-            </Route>
-
-            <Route path='parties'>
+            <Route path='partys'>
               <Route
                 index
-                element={<List title='Adicionar novo partido' />}
+                element={<List title='Adicionar novo partido' query={'party'} dataColumns={partiesColumns} />}
               />
               <Route
                 path=':partyId'
@@ -78,7 +63,7 @@ function App() {
             <Route path='candidates'>
               <Route
                 index
-                element={<List title='Adicionar novo Candidato' />}
+                element={<List title='Adicionar novo Candidato' query={'candidate'} dataColumns={candidateColumns} />}
               />
               <Route
                 path=':candidateId'
@@ -97,6 +82,23 @@ function App() {
                 } />
             </Route>
 
+
+            <Route path='voters'>
+              <Route index
+                element={
+                  <RequireAuth>
+                    <List dataColumns={voterColumns} query={'voter'}/>
+                  </RequireAuth>
+                } />z
+
+              <Route
+                path=':id'
+                element={
+                  <RequireAuth>
+                    <Single />
+                  </RequireAuth>
+                } />
+            </Route>
 
           </Route>
         </Routes>

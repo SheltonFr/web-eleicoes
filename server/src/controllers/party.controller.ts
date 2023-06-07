@@ -65,9 +65,10 @@ const findAll = async (req: Request, res: Response) => {
     const parties = await partyService.findAll();
 
     return res.status(200).send({
-      parties: parties.map((party) => ({
+      result: parties.map((party) => ({
         id: party._id,
         name: party.name,
+        description: party.description,
         candidates: party.candidates,
         createdAt: party.createdAt,
       })),

@@ -20,10 +20,4 @@ export const candidateInputs = [
         type: "text",
         placeholder: "Nome do partido... "
     },
-    {
-        id: 'party',
-        label: "Descrição",
-        type: "text",
-        placeholder: "Descrição do partido..."
-    },
 ]

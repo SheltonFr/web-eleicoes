@@ -2,16 +2,27 @@
 import './new.scss'
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Navbar from '../../components/Navbar/Navbar'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import api from '../../api/api'
+import { createCandidate, createParty } from '../../repository/repository'
+import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import { fetchParties } from '../../repository/repository'
 
 
 const New = ({ inputs, title }) => {
 
   const [data, setData] = useState({})
   const navigate = useNavigate()
+  const [parties, setParties] = useState([])
+  const [party, setParty] = useState("")
   const location = useLocation();
+
+  useEffect(() => {
+
+    if (location.pathname.includes('candidates')) {
+      fetchParties().then((res) => setParties(res.data.result))
+    }
+  })
 
 
   const handleInput = (e) => {
@@ -21,21 +32,31 @@ const New = ({ inputs, title }) => {
     setData({ ...data, [id]: value })
   }
 
+  const handleSelectChange = (e) => {
+    console.log(data)
+    console.log(e.target.value)
+    setParty(e.target.value);
+  }
+
   const handleAdd = async (e) => {
     e.preventDefault()
 
 
-    if (location.pathname.includes('product')) {
+    if (location.pathname.includes('partys')) {
       console.log(data)
-      api.post('/party', {
-        name: data.name,
-        description: data.description
-      })
-        .then((response) => {
-          console.log(response)
-          navigate('/')
-        })
-        .catch((err) => console.log(err));
+      createParty(data).then(() => {
+        navigate('/partys')
+      }).catch((err) => console.log(err))
+
+      return;
+    }
+
+    if (location.pathname.includes('candidates')) {
+      console.log({ ...data, party })
+      createCandidate({ ...data, party }).then(() => {
+        navigate('/candidates')
+      }).catch((err) => console.log(err))
+      return;
     }
 
   }
@@ -53,16 +74,39 @@ const New = ({ inputs, title }) => {
             <form onSubmit={handleAdd}>
               {inputs.map(input => (
                 <div className="formInput" key={input.id}>
-                  <label htmlFor={input.id}>{input.label}</label>
-                  <input
-                    type={input.type}
+                  <TextField
+                    fullWidth
                     placeholder={input.placeholder}
-                    id={input.id}
-                    onChange={handleInput}
-                    required
-                  />
+                    id={input.id} onChange={handleInput}
+                    label={input.label}
+                    variant="standard"
+                    required />
                 </div>
               ))}
+
+              {
+                location.pathname.includes('candidates') && (
+                  <div className="formInput">
+                    <FormControl variant="standard" fullWidth style={{ padding: '0', margin: '0' }} >
+                      <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
+                      <Select
+                        className='select'
+                        labelId="demo-simple-select-standard-label"
+                        id="demo-simple-select-standard"
+                        value={party}
+                        onChange={e => handleSelectChange(e)}
+                        label="Partido"
+                        required
+                      >
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        {parties.map(p => <MenuItem key={p.id} value={p.id}>{p.name}</MenuItem>)}
+                      </Select>
+                    </FormControl>
+                  </div>
+                )
+              }
 
               <button type='submit'>Send</button>
             </form>

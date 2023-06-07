@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import z from "zod";
 import userService from "../services/user.service";
 import { UserType } from "../models/User";
+import mongoose from "mongoose";
 
 const UserSchema = z.object({
   username: z.string().min(6).nonempty(),
@@ -50,5 +51,16 @@ const findAll = async (req: Request, res: Response) => {
     return res.status(500).send(error);
   }
 };
+
+const findById = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  try {
+    const object = new mongoose.Types.ObjectId(id)
+    
+  } catch (error) {
+    
+  }
+}
 
 export default { create, findAll };
