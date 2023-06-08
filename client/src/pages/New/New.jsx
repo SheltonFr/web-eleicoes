@@ -18,7 +18,7 @@ const New = ({ inputs, title }) => {
   const [party, setParty] = useState("")
   const location = useLocation();
 
-  const { currentUser } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
 
   useEffect(() => {
 
@@ -56,7 +56,7 @@ const New = ({ inputs, title }) => {
 
     if (location.pathname.includes('candidates')) {
       console.log({ ...data, party })
-      createCandidate({ ...data, party }, currentUser).then(() => {
+      createCandidate({ ...data, party }, token).then(() => {
         navigate('/candidates')
       }).catch((err) => console.log(err))
       return;
@@ -91,7 +91,7 @@ const New = ({ inputs, title }) => {
                 location.pathname.includes('candidates') && (
                   <div className="formInput">
                     <FormControl variant="standard" fullWidth style={{ padding: '0', margin: '0' }} >
-                      <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
+                      <InputLabel id="demo-simple-select-standard-label">Partido</InputLabel>
                       <Select
                         className='select'
                         labelId="demo-simple-select-standard-label"

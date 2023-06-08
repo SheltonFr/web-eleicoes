@@ -5,9 +5,7 @@ import mongoose from "mongoose";
 
 const PartySchema = z
   .object({
-    name: z
-      .string()
-      .nonempty(),
+    name: z.string().nonempty(),
     description: z.string(),
   })
   .strict({ message: "O nome é Obrigatório!" });
@@ -52,7 +50,7 @@ const findById = async (req: Request, res: Response) => {
       return res.status(404).send({ message: "No party found" });
     }
 
-    return res.status(200).send({ party });
+    return res.status(200).send(party);
   } catch (error) {
     return res
       .status(500)

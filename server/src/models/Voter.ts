@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
-export interface IVoter{
+export interface IVoter {
   name: string;
   bi: string;
-  avatar?: string;
+  avatar: string;
   user: mongoose.Types.ObjectId;
 }
 
@@ -19,7 +19,7 @@ const VoterSchema = new mongoose.Schema<IVoter>({
   },
   avatar: {
     type: "string",
-    required: false,
+    required: true,
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,

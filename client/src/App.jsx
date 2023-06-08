@@ -16,10 +16,10 @@ function App() {
 
   const { darkMode } = useContext(DarkModeContext)
 
-  const { currentUser } = useContext(AuthContext)
+  const { token } = useContext(AuthContext)
 
   const RequireAuth = ({ children }) => {
-    return currentUser ? (children) : <Navigate to={'/login'} />
+    return token ? (children) : <Navigate to={'/login'} />
   }
 
   return (

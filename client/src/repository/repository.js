@@ -47,6 +47,10 @@ export const fetchVoter = async (id) => {
   return api.get(`/voter/${id}`);
 };
 
-export const toggleActiveVoter = async (id) => {
-  return api.get(`/voter/${id}/activate`);
+export const toggleActiveVoter = async (id, token) => {
+  return api.get(`/voter/${id}/activate`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };

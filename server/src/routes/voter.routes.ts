@@ -13,4 +13,5 @@ router.get(
   voterController.toggleActiveState
 );
 
+router.get("/:id", validId, voterController.findById);
 export default router;
