@@ -8,6 +8,7 @@ import { Button } from '@mui/material'
 import { fetchVoter, toggleActiveVoter } from '../../repository/repository'
 import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context/AuthContext'
+import SimpleBackdrop from '../../components/Backdrop/Backdrop'
 
 
 
@@ -17,6 +18,8 @@ const Single = () => {
   const location = useLocation();
   const { token } = useContext(AuthContext)
 
+
+  const [isOpen, setIsOpen] = useState(false);
   const [result, setResult] = useState(null)
 
 
@@ -28,11 +31,12 @@ const Single = () => {
   }, [])
 
   const toggleActiveVoterState = async () => {
+    setIsOpen(true)
     await toggleActiveVoter(id, token)
     fetchVoter(id).then((res) => {
       console.log(res.data)
       setResult(res.data)
-    }).catch((err) => console.log(err))
+    }).catch((err) => console.log(err)).finally(() => setIsOpen(false))
   }
 
 
@@ -84,11 +88,8 @@ const Single = () => {
             <NormalChart aspect={3 / 1} title="User Spanding (Last 6 Months)" />
           </div>
         </div>
-        <div className="bottom">
-          <h1 className="title">Last Transactions</h1>
-          <Table />
-        </div>
       </div>
+      <SimpleBackdrop open={isOpen} />
     </div>
   )
 }
