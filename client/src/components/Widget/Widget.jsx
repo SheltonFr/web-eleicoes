@@ -14,7 +14,7 @@ const Widget = ({ type, amount }) => {
             data = {
                 title: 'CANDIDATOS',
                 link: 'ver candidatos',
-                path: "/voters",
+                path: "/candidates",
                 icon: <EmojiPeopleOutlined
                     className="icon"
                     style={{
@@ -28,7 +28,7 @@ const Widget = ({ type, amount }) => {
             data = {
                 title: 'ELEITORES',
                 link: 'Ver eleitores',
-                path: "/partys",
+                path: "/voters",
                 icon: <Groups3Outlined
                     className="icon"
                     style={{
@@ -72,14 +72,7 @@ const Widget = ({ type, amount }) => {
             break;
     }
 
-    useEffect(() => {
-        const fetchData = async () => {
-            
-
-        }
-
-        fetchData();
-    }, [])
+  
 
 
     return (
