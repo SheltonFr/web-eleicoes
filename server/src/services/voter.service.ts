@@ -11,6 +11,11 @@ const create = async (
 const findById = async (_id: Types.ObjectId) =>
   Voter.findById(_id).populate("user");
 
+const findByUser = async (userId: Types.ObjectId) =>
+  Voter.findOne({ user: userId }).populate("user");
 const findAll = async () => Voter.find().populate("user");
 
-export default { create, findById, findAll };
+const updateVotedState = async (_id: Types.ObjectId, voted: boolean) =>
+  Voter.updateOne({ _id }, { voted });
+
+export default { create, findById, findAll, findByUser, updateVotedState };

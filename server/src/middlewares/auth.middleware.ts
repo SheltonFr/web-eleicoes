@@ -37,7 +37,7 @@ export const authMiddleware = (
       const user = await userService.findById(decodedId);
 
       if (!user) return res.status(401).send({ message: "Invalid Token" });
-      req.authId = user._id;
+      req.authId = user._id.toString();
       next();
     });
   } catch (error) {
@@ -76,8 +76,8 @@ export const adminMiddleware = async (
       if (!user) return res.status(401).send({ message: "Invalid Token" });
 
       if (user.type !== UserType.ADMIN) return res.sendStatus(401);
-      
-      req.authId = user._id;
+
+      req.authId = user._id.toString();
       next();
     });
   } catch (error) {

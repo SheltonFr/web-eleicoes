@@ -1,7 +1,7 @@
 declare namespace Express {
   import { Types } from "mongoose";
   export interface Request {
-    authId?: Types.ObjectId;
+    authId?: string;
     id?: string;
   }
 }

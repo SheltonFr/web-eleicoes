@@ -86,4 +86,5 @@ const findAll = async (req: Request, res: Response) => {
   }
 };
 
+
 export default { create, toggleActiveState, findAll, findById };

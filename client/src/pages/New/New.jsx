@@ -47,7 +47,7 @@ const New = ({ inputs, title }) => {
 
     if (location.pathname.includes('partys')) {
       console.log(data)
-      createParty(data).then(() => {
+      createParty(data, token).then(() => {
         navigate('/partys')
       }).catch((err) => console.log(err))
 
@@ -111,7 +111,7 @@ const New = ({ inputs, title }) => {
                 )
               }
 
-              <button type='submit'>Send</button>
+              <button type='submit'>Enviar</button>
             </form>
           </div>
         </div>

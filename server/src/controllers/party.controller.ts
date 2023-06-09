@@ -22,6 +22,8 @@ const create = async (req: Request, res: Response) => {
         .send({ message: "An error occurred while creating Party!" });
     }
 
+    
+
     return res.status(201).json(party);
   } catch (error) {
     if (error instanceof mongoose.MongooseError) {

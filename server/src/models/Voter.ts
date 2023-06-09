@@ -4,6 +4,7 @@ export interface IVoter {
   name: string;
   bi: string;
   avatar: string;
+  voted?: boolean;
   user: mongoose.Types.ObjectId;
 }
 
@@ -16,6 +17,10 @@ const VoterSchema = new mongoose.Schema<IVoter>({
     type: "string",
     required: true,
     unique: true,
+  },
+  voted: {
+    type: "boolean",
+    default: false,
   },
   avatar: {
     type: "string",

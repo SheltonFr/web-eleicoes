@@ -17,7 +17,7 @@ const create = async (req: Request, res: Response) => {
 
     const partyId = new mongoose.Types.ObjectId(party);
 
-    const candidateParty = partyService.findById(partyId);
+    const candidateParty = await partyService.findById(partyId);
 
     if (!candidateParty) {
       return res.status(404).send({ message: "Party not found!" });
@@ -30,6 +30,8 @@ const create = async (req: Request, res: Response) => {
         .status(404)
         .send({ message: "An error occured while creating Candidate!" });
     }
+
+    await partyService.setCandidate(candidate._id, candidateParty._id);
 
     return res.status(201).send(candidate);
   } catch (error) {
@@ -59,6 +61,7 @@ const findAll = async (req: Request, res: Response) => {
         name: candidate.name,
         avatar: candidate.avatar,
         party: candidate.party,
+        votes: candidate.voters,
       })),
     });
   } catch (error) {
@@ -71,7 +74,49 @@ const findAll = async (req: Request, res: Response) => {
     });
   }
 };
-const findById = async (req: Request, res: Response) => {};
-const findByParties = async (req: Request, res: Response) => {};
+const findById = async (req: Request, res: Response) => {
+  const id = req.params.id;
 
-export default { create, findById, findAll, findByParties };
+  try {
+    const objectId = new mongoose.Types.ObjectId(id);
+
+    const candidate = await candidateService.findById(objectId);
+
+    if (!candidate) {
+      return res.status(404).send({ message: "Candidate not found" });
+    }
+
+    return res.status(200).send(candidate);
+  } catch (error) {
+    return res.sendStatus(500);
+  }
+};
+
+const findByParty = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  try {
+    const objectId = new mongoose.Types.ObjectId(id);
+
+    const candidates = await candidateService.findByParty(objectId);
+
+    return res.status(200).send({
+      result: candidates.map((candidate) => ({
+        id: candidate._id,
+        name: candidate.name,
+        avatar: candidate.avatar,
+        party: candidate.party,
+      })),
+    });
+  } catch (error) {
+    if (error instanceof mongoose.Error) {
+      return res.status(404).send(error.message);
+    }
+
+    return res.status(500).send({
+      message: `Server error on Create Candidate Controller: ${error}`,
+    });
+  }
+};
+
+export default { create, findById, findAll };

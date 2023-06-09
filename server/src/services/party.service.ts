@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 import Party from "../models/Party";
 
 const create = async (name: string, description: string) =>
-  Party.create({ name, description   });
+  Party.create({ name, description });
 
 const findAll = async () => Party.find();
 
@@ -14,4 +14,28 @@ const update = async (id: Types.ObjectId, name: string) =>
   Party.findOneAndUpdate({ _id: id }, { name: name });
 
 const deleteOne = async (id: Types.ObjectId) => Party.findByIdAndDelete(id);
-export default { create, findAll, findById, findByName, update, deleteOne };
+
+const setCandidate = async (
+  userId: Types.ObjectId,
+  partyId: Types.ObjectId
+) => {
+  return Party.findOneAndUpdate(
+    { _id: partyId },
+    {
+      $push: {
+        candidates: userId,
+      },
+    }
+  );
+};
+
+
+export default {
+  create,
+  findAll,
+  findById,
+  findByName,
+  update,
+  deleteOne,
+  setCandidate,
+};
