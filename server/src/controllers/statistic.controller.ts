@@ -11,6 +11,8 @@ const getStatistics = async (req: Request, res: Response) => {
     const voters = await voterService.findAll();
     const votes = await voteService.findAll();
 
+    
+
     console.log(candidates);
     return res.status(200).send({
       statistics: {

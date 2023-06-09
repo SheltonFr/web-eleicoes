@@ -1,43 +1,58 @@
+/* eslint-disable no-unused-vars */
+import './home.scss'
 import FeaturedChart from '../../components/FeaturedChart/FeaturedChart'
-import NormalChart from '../../components/NormalChart/NormalChart'
+import BarChartComponent from '../../components/BarChart/BarChart'
+import Backdrop from '../../components/Backdrop/Backdrop'
 import Navbar from '../../components/Navbar/Navbar'
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Widget from '../../components/Widget/Widget'
-import './home.scss'
-import Table from '../../components/Table/Table'
 import { useEffect, useState } from 'react'
 import { getStatistics } from '../../repository/repository'
 
 const Home = () => {
 
   const [data, setData] = useState({})
+  const [isLoading, setIsLodin] = useState(true)
+  const [votes, setVotes] = useState([])
 
   useEffect(() => {
-    getStatistics()
-      .then((res) => setData(res.data.statistics))
-      .catch()
+
+    async function fetchData() {
+
+      const response = (await getStatistics()).data
+      setData(response.statistics)
+      setIsLodin(false)
+
+    }
+    fetchData()
   }, [])
+
 
   return (
     <div className='home'>
-      <Sidebar />
-      <div className="homeContainer">
-        <Navbar />
-        <div className="widgets">
-          <Widget type="candidate" amount={data.candidatesCount} />
-          <Widget type="voter" amount={data.votersCount} />
-          <Widget type="party" amount={data.partiesCount} />
-          <Widget type="vote" amount={data.votesCount} />
-        </div>
-        <div className="charts">
-          <FeaturedChart />
-          <NormalChart aspect={2 / 1} title={"Ultima semana"} />
-        </div>
-        <div className="listContainer">
-          <div className="listTitle">Latest Transactions</div>
-          <Table />
-        </div>
-      </div>
+
+      {
+        isLoading ? <Backdrop open={isLoading} /> :
+
+          <>
+            <Sidebar />
+            <div className="homeContainer">
+              <Navbar />
+              <div className="widgets">
+                <Widget type="candidate" amount={data.candidatesCount} />
+                <Widget type="voter" amount={data.votersCount} />
+                <Widget type="party" amount={data.partiesCount} />
+                <Widget type="vote" amount={data.votesCount} />
+              </div>
+              <div className="charts">
+                <FeaturedChart candidate={data.votes.winner} />
+                <BarChartComponent aspect={2 / 1} title={"Estado actual"} votes={data.votes} />
+              </div>
+
+            </div>
+          </>
+      }
+
     </div>
   )
 }

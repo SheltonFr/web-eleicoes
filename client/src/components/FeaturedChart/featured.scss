@@ -24,9 +24,12 @@
     justify-content: center;
     gap: 15px;
 
-    .featuredChart {
-      width: 100px;
-      height: 100px;
+    img {
+      width: 150px;
+      height: 150px;
+      border-radius: 100%;
+      display: block;
+      // background-color: red;
     }
 
     .title {

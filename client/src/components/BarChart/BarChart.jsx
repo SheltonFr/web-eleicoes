@@ -1,55 +1,49 @@
-import { CircularProgressbar } from 'react-circular-progressbar'
-import './featured.scss'
-import { KeyboardArrowDown, KeyboardArrowUp, MoreVert } from '@mui/icons-material'
-import 'react-circular-progressbar/dist/styles.css';
+/* eslint-disable react/prop-types */
 
-const BarChart = () => {
+import { useEffect, useState } from 'react';
+import './bar.scss'
+import { Bar, XAxis, CartesianGrid, YAxis, BarChart, ResponsiveContainer, Tooltip, Legend } from 'recharts';
+
+
+
+const BarChartComponent = ({ aspect, title, votes }) => {
+
+
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    console.log(votes)
+    setData(votes.candidates)
+  }, [])
+
+
+
   return (
-    <div className='featured'>
-      <div className="top">
-        <h1 className="title">Total Revenue</h1>
-        <MoreVert fontSize='small' />
-      </div>
-      <div className="bottom">
-        <div className="featuredChart">
-          <CircularProgressbar
-            value={70}
-            text='70%'
-            strokeWidth={5} />
-        </div>
-        <p className="title">Total sales made today</p>
-        <p className="amount">$420</p>
-        <p className="desc">
-          Previous transactions processing. Last payments may not be included;
-        </p>
-        <div className="summary">
-          <div className="item">
-            <div className="itemTitle">Target</div>
-            <div className="itemResult positive">
-              <KeyboardArrowUp fontSize='small' />
-              <div className="resultAmount">$12.4k</div>
-            </div>
-          </div>
+    <div className='chart'>
+      <div className="title">{title}</div>
 
-          <div className="item">
-            <div className="itemTitle">Last Week</div>
-            <div className="itemResult negative">
-              <KeyboardArrowDown fontSize='small' />
-              <div className="resultAmount">$12.4k</div>
-            </div>
-          </div>
-
-          <div className="item">
-            <div className="itemTitle">Last Month</div>
-            <div className="itemResult positive">
-              <KeyboardArrowUp fontSize='small' />
-              <div className="resultAmount">$12.4k</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ResponsiveContainer width="100%" aspect={aspect}>
+        <BarChart
+          width={500}
+          height={300}
+          data={data}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="amout" fill="#8884d8" maxBarSize={25} />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   )
 }
 
-export default BarChart
+export default BarChartComponent

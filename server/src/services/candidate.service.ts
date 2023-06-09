@@ -31,6 +31,8 @@ const getStatistics = async () =>
     {
       $project: {
         name: 1,
+        avatar: 1,
+        party: 1,
         total: { $size: "$voters" },
       },
     },
