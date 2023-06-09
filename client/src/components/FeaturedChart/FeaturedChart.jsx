@@ -1,52 +1,19 @@
-import { CircularProgressbar } from 'react-circular-progressbar'
+/* eslint-disable react/prop-types */
 import './featured.scss'
-import { KeyboardArrowDown, KeyboardArrowUp, MoreVert } from '@mui/icons-material'
 import 'react-circular-progressbar/dist/styles.css';
 
-const FeaturedChart = () => {
+const FeaturedChart = ({ candidate }) => {
   return (
     <div className='featured'>
       <div className="top">
-        <h1 className="title">Total Revenue</h1>
-        <MoreVert fontSize='small' />
+        <h1 className="title">Lider de votações</h1>
       </div>
       <div className="bottom">
         <div className="featuredChart">
-          <CircularProgressbar
-            value={70}
-            text='70%'
-            strokeWidth={5} />
+          <img src={candidate.avatar} alt="" />
         </div>
-        <p className="title">Total sales made today</p>
-        <p className="amount">$420</p>
-        <p className="desc">
-          Previous transactions processing. Last payments may not be included;
-        </p>
-        <div className="summary">
-          <div className="item">
-            <div className="itemTitle">Target</div>
-            <div className="itemResult positive">
-              <KeyboardArrowUp fontSize='small' />
-              <div className="resultAmount">$12.4k</div>
-            </div>
-          </div>
-
-          <div className="item">
-            <div className="itemTitle">Last Week</div>
-            <div className="itemResult negative">
-              <KeyboardArrowDown fontSize='small' />
-              <div className="resultAmount">$12.4k</div>
-            </div>
-          </div>
-
-          <div className="item">
-            <div className="itemTitle">Last Month</div>
-            <div className="itemResult positive">
-              <KeyboardArrowUp fontSize='small' />
-              <div className="resultAmount">$12.4k</div>
-            </div>
-          </div>
-        </div>
+        <p className="title">{candidate.name}</p>
+        <p className="amount">{candidate.total}</p>
       </div>
     </div>
   )

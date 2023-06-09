@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import './normal.scss'
 import { AreaChart, Area, XAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
