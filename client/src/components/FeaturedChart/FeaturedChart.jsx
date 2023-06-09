@@ -10,7 +10,7 @@ const FeaturedChart = ({ candidate }) => {
       </div>
       <div className="bottom">
         <div className="featuredChart">
-          <img src={candidate.avatar} alt="" />
+          {/* <img src={candidate.avatar} alt="" /> */}
         </div>
         <p className="title">{candidate.name}</p>
         <p className="amount">{candidate.total}</p>

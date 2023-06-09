@@ -44,10 +44,15 @@ const Home = () => {
                 <Widget type="party" amount={data.partiesCount} />
                 <Widget type="vote" amount={data.votesCount} />
               </div>
-              <div className="charts">
-                <FeaturedChart candidate={data.votes.winner} />
-                <BarChartComponent aspect={2 / 1} title={"Estado actual"} votes={data.votes} />
-              </div>
+
+              {
+                data.votes &&
+                <div className="charts">
+                  <FeaturedChart candidate={data.votes.winner} />
+                  <BarChartComponent aspect={2 / 1} title={"Estado actual"} votes={data.votes} />
+                </div>
+              }
+
 
             </div>
           </>
