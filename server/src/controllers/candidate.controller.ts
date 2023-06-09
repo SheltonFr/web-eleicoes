@@ -92,6 +92,7 @@ const findById = async (req: Request, res: Response) => {
   }
 };
 
+
 const findByParty = async (req: Request, res: Response) => {
   const id = req.params.id;
 

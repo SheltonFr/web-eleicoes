@@ -2,6 +2,7 @@
 import './new.scss'
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Navbar from '../../components/Navbar/Navbar'
+import Backdrop from '../../components/Backdrop/Backdrop'
 import { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { createCandidate, createParty } from '../../repository/repository'
@@ -16,6 +17,7 @@ const New = ({ inputs, title }) => {
   const navigate = useNavigate()
   const [parties, setParties] = useState([])
   const [party, setParty] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
   const location = useLocation();
 
   const { token } = useContext(AuthContext);
@@ -42,6 +44,7 @@ const New = ({ inputs, title }) => {
   }
 
   const handleAdd = async (e) => {
+    setIsLoading(true)
     e.preventDefault()
 
 
@@ -49,7 +52,8 @@ const New = ({ inputs, title }) => {
       console.log(data)
       createParty(data, token).then(() => {
         navigate('/partys')
-      }).catch((err) => console.log(err))
+      }).catch((err) => console.log(err.response))
+        .finally(() => setIsLoading(false))
 
       return;
     }
@@ -58,7 +62,7 @@ const New = ({ inputs, title }) => {
       console.log({ ...data, party })
       createCandidate({ ...data, party }, token).then(() => {
         navigate('/candidates')
-      }).catch((err) => console.log(err))
+      }).catch((err) => console.log(err)).finally(() => setIsLoading(false))
       return;
     }
 
@@ -116,6 +120,9 @@ const New = ({ inputs, title }) => {
           </div>
         </div>
       </div>
+
+      <Backdrop open={isLoading} />
+
     </div>
   )
 }

@@ -27,6 +27,8 @@ const login = async (req: Request, res: Response) => {
     }
 
     if (!user?.isActive) {
+      console.log("erro");
+      
       return res.status(400).send({ message: "This account is inactive!" });
     }
 

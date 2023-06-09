@@ -1,8 +1,6 @@
 import './single.scss'
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Navbar from '../../components/Navbar/Navbar'
-import NormalChart from '../../components/NormalChart/NormalChart'
-import Table from '../../components/Table/Table'
 import { useParams, useLocation } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { fetchVoter, toggleActiveVoter } from '../../repository/repository'
@@ -50,7 +48,7 @@ const Single = () => {
         <Navbar />
         <div className="top">
           <div className="left">
-            <h1 className="title">Information</h1>
+            <h1 className="title">Informção</h1>
             <div className="item">
               <img
                 src={result.avatar}
@@ -83,9 +81,6 @@ const Single = () => {
                 }
               </div>
             }
-          </div>
-          <div className="right">
-            <NormalChart aspect={3 / 1} title="User Spanding (Last 6 Months)" />
           </div>
         </div>
       </div>
