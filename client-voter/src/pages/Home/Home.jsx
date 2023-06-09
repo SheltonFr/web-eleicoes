@@ -6,16 +6,20 @@ import Widget from '../../components/Widget/Widget'
 import './home.scss'
 import Table from '../../components/Table/Table'
 import { useEffect, useState } from 'react'
-import { getStatistics } from '../../repository/repository'
+import { fetchCandidates, getStatistics } from '../../repository/repository'
 
 const Home = () => {
 
   const [data, setData] = useState({})
 
   useEffect(() => {
-    getStatistics()
-      .then((res) => setData(res.data.statistics))
-      .catch()
+
+    const fetchData = async () => {
+      const response = (await fetchCandidates()).data;
+      console.log(response);
+    }
+
+    fetchData();
   }, [])
 
   return (
@@ -29,8 +33,7 @@ const Home = () => {
           <Widget type="candidate" amount={data.partiesCount} />
           <Widget type="candidate" amount={data.votesCount} />
         </div>
-        
-      
+
       </div>
     </div>
   )

@@ -35,9 +35,6 @@ export const fetchCandidates = async () => {
   return api.get("/candidate");
 };
 
-export const fetchVoters = async () => {
-  return api.get("/voter");
-};
 
 export const fetchParties = async () => {
   return api.get("/party  ");
@@ -47,13 +44,6 @@ export const fetchVoter = async (id) => {
   return api.get(`/voter/${id}`);
 };
 
-export const toggleActiveVoter = async (id, token) => {
-  return api.get(`/voter/${id}/activate`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
 
 export const getStatistics = async () => {
   return api.get("/statistics");
