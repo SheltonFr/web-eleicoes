@@ -1,23 +1,21 @@
-import { AccountBalanceWalletOutlined, KeyboardArrowUp, MonetizationOnOutlined, PersonOutlineOutlined, ShoppingCartOutlined } from '@mui/icons-material'
 import './widget.scss'
 import { useEffect, useState } from 'react';
-import { collection, getDoc, getDocs, query, where } from 'firebase/firestore'
-import { db } from '../../firebase'
+import { NavLink } from 'react-router-dom';
+import { AccountBalanceWalletOutlined, EmojiPeopleOutlined, GroupAddOutlined, Groups3Outlined } from '@mui/icons-material';
 
-const Widget = ({ type }) => {
+const Widget = ({ type, amount }) => {
 
-    const [amount, setAmount] = useState(null)
-    const [percentage, setPercentage] = useState(null)
+    
 
     let data;
 
     switch (type) {
-        case 'user':
+        case 'candidate':
             data = {
-                title: 'USERS',
-                isMoney: false,
-                link: 'See all users',
-                icon: <PersonOutlineOutlined
+                title: 'CANDIDATOS',
+                link: 'ver candidatos',
+                path: "/voters",
+                icon: <EmojiPeopleOutlined
                     className="icon"
                     style={{
                         color: "crimson",
@@ -26,12 +24,12 @@ const Widget = ({ type }) => {
                 />
             };
             break;
-        case 'order':
+        case 'voter':
             data = {
-                title: 'ORDERS',
-                isMoney: false,
-                link: 'View all orders',
-                icon: <ShoppingCartOutlined
+                title: 'ELEITORES',
+                link: 'Ver eleitores',
+                path: "/partys",
+                icon: <Groups3Outlined
                     className="icon"
                     style={{
                         color: "goldenrod",
@@ -40,12 +38,13 @@ const Widget = ({ type }) => {
                 />
             };
             break;
-        case 'earning':
+        case 'party':
             data = {
-                title: 'EARNINGS',
+                title: 'PARTIDOS',
                 isMoney: true,
-                link: 'View net earnings',
-                icon: <MonetizationOnOutlined
+                link: 'Ver partidos',
+                path: "/candidates",
+                icon: <GroupAddOutlined
                     className="icon"
                     style={{
                         color: "green",
@@ -54,11 +53,11 @@ const Widget = ({ type }) => {
                 />
             };
             break;
-        case 'balance':
+        case 'vote':
             data = {
-                title: 'BALANCE',
+                title: 'VOTOS',
                 isMoney: true,
-                link: 'See details',
+                link: 'Ver votos',
                 icon: <AccountBalanceWalletOutlined
                     className="icon"
                     style={{
@@ -75,29 +74,7 @@ const Widget = ({ type }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const today = new Date();
-            const lastMonth = new Date(new Date().setMonth(today.getMonth() - 1));
-            const prevMonth = new Date(new Date().setMonth(today.getMonth() - 2));
-
-            const lastMonthQuery = query(
-                collection(db, 'users'),
-                where("timeStamp", "<=", today),
-                where("timeStamp", ">", lastMonth)
-            );
-
-            const prevMonthQuery = query(
-                collection(db, 'users'),
-                where("timeStamp", "<=", lastMonth),
-                where("timeStamp", ">", prevMonth)
-            );
-
-            const lastMonthData = await getDocs(lastMonthQuery)
-            const prevMonthData = await getDocs(prevMonthQuery)
-
-            setAmount(lastMonthData.docs.length)
-            setPercentage(
-                ((lastMonthData.docs.length - prevMonthData.docs.length) / prevMonthData.docs.length) * 100
-            )
+            
 
         }
 
@@ -109,14 +86,10 @@ const Widget = ({ type }) => {
         <div className='widget'>
             <div className="left">
                 <span className="title">{data.title}</span>
-                <span className="counter">{data.isMoney && "$"} {amount}</span>
-                <span className="link">{data.link}</span>
+                <span className="counter">{amount}</span>
+                <NavLink className="link" to={data.path}>{data.link}</NavLink>
             </div>
             <div className="right">
-                <div className="percentage positive">
-                    <KeyboardArrowUp />
-                    {percentage}
-                </div>
                 {data.icon}
             </div>
         </div>
