@@ -1,3 +1,4 @@
+import './auth.scss'
 import React, { useState } from 'react'
 import { NavLink, useNavigate, useNavigation } from 'react-router-dom';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
@@ -11,6 +12,7 @@ const SigupForm = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [bi, setBi] = useState("")
+  const [error, setError] = useState(null)
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -74,6 +76,13 @@ const SigupForm = () => {
               </Button>
             </Segment>
           </Form>
+
+          {error &&
+
+            <Message className='error'>
+              {error}
+            </Message>
+          }
           <Message>
             Possue uma conta?
             <NavLink to={'/login'}> Entre</NavLink>

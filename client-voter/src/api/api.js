@@ -1,8 +1,9 @@
 import axios from "axios";
 
-const prodUrl = "https://voting-server.onrender.com/api";
+// const serverUrl = "https://voting-server.onrender.com/api";
+const serverUrl = "http://localhost:3000/api";
 const api = axios.create({
-  baseURL: prodUrl,
+  baseURL: serverUrl,
 });
 
 export default api;

@@ -1,21 +1,23 @@
-import FeaturedChart from '../../components/FeaturedChart/FeaturedChart'
-import NormalChart from '../../components/NormalChart/NormalChart'
+import Backdrop from '../../components/Backdrop/Backdrop'
 import Navbar from '../../components/Navbar/Navbar'
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Widget from '../../components/Widget/Widget'
 import './home.scss'
-import Table from '../../components/Table/Table'
 import { useEffect, useState } from 'react'
-import { fetchCandidates, getStatistics } from '../../repository/repository'
+import { fetchCandidates } from '../../repository/repository'
 
 const Home = () => {
 
-  const [data, setData] = useState({})
+  const [data, setData] = useState([])
+  const [isLoading, setIsLodin] = useState(true)
+
 
   useEffect(() => {
 
     const fetchData = async () => {
       const response = (await fetchCandidates()).data;
+      setData(response.result)
+      setIsLodin(false)
       console.log(response);
     }
 
@@ -24,17 +26,23 @@ const Home = () => {
 
   return (
     <div className='home'>
-      <Sidebar />
-      <div className="homeContainer">
-        <Navbar />
-        <div className="widgets">
-          <Widget type="candidate" amount={data.candidatesCount} />
-          <Widget type="candidate" amount={data.votersCount} />
-          <Widget type="candidate" amount={data.partiesCount} />
-          <Widget type="candidate" amount={data.votesCount} />
-        </div>
 
-      </div>
+      {
+        <>
+          <Sidebar />
+          <div className="homeContainer">
+            <Navbar />
+            <div className="widgets">
+              {
+                data.map((candidate) => <Widget type="candidate" key={candidate.id} candidate={candidate} />)
+              }
+
+            </div>
+
+          </div>
+        </>
+      }
+      <Backdrop open={isLoading} />
     </div>
   )
 }

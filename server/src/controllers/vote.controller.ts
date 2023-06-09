@@ -8,18 +8,26 @@ const voteCandidate = async (req: Request, res: Response) => {
   const candidateId = req.params.id;
   const voterId = req.authId;
 
+  console.log(candidateId);
+
   try {
     const candidateParsedId = new mongoose.Types.ObjectId(candidateId);
     const voterParsedId = new mongoose.Types.ObjectId(voterId);
 
-    const candidate = await candidateService.findById(candidateParsedId);
+    
+    const candidate = await candidateService.findById(candidateParsedId)
     const voter = await voterService.findByUser(voterParsedId);
+
+    console.log(candidateParsedId);
+    console.log(voter);
+
 
     if (!candidate || !voter) {
       return res.status(404).send({ message: "Candidate or Voter not found" });
     }
 
     if (voter.voted) {
+      console.log("Voter already voted...");
       return res.status(400).send({ message: "Voter already voted" });
     }
 
@@ -28,11 +36,13 @@ const voteCandidate = async (req: Request, res: Response) => {
       voter: voter._id,
     });
 
+
     await candidateService.setVote(voter._id, candidate._id);
     await voterService.updateVotedState(voter._id, true);
 
     return res.send(vote);
   } catch (error) {
+
     return res.status(500).send(error);
   }
 };

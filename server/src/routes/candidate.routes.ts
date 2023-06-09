@@ -6,5 +6,6 @@ const router: Router = Router();
 
 router.post("/", adminMiddleware, candidateController.create);
 router.get("/", candidateController.findAll);
+router.get("/:id", candidateController.findById);
 
 export default router;
