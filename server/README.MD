@@ -26,13 +26,13 @@
 
 ### Registro de Partidos
 
-- [] Rota de registro de partidos
-  - [] Criação
-  - [] Actualização
-  - [] Eliminação
-  - [] Leitura
-    - [] Todos
-    - [] Por Id
-    - [] Por Nome
-    - [] Por data de registro (Opcional)
-- [] Apenas administradores poderão acessar essass toras
+- [x] Rota de registro de partidos
+  - [x] Criação
+  - [x] Actualização
+  - [x] Eliminação
+  - [x] Leitura
+    - [x] Todos
+    - [x] Por Id
+    - [ ] Por Nome
+    - [ ] Por data de registro (Opcional)
+- [x] Apenas administradores poderão acessar essass toras
