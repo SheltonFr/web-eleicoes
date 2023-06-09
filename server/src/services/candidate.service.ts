@@ -25,4 +25,29 @@ const setVote = async (
     }
   );
 };
-export default { create, findAll, findById, remove, setVote, findByParty };
+
+const getStatistics = async () =>
+  Candidate.aggregate([
+    {
+      $project: {
+        name: 1,
+        total: { $size: "$voters" },
+      },
+    },
+
+    {
+      $sort: {
+        total: -1,
+      },
+    },
+  ]);
+
+export default {
+  create,
+  findAll,
+  findById,
+  remove,
+  setVote,
+  findByParty,
+  getStatistics,
+};
