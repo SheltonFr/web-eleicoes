@@ -54,3 +54,7 @@ export const toggleActiveVoter = async (id, token) => {
     },
   });
 };
+
+export const getStatistics = async () => {
+  return api.get("/statistics");
+};
