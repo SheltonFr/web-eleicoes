@@ -43,7 +43,7 @@ const Widget = ({ type, amount }) => {
                 title: 'PARTIDOS',
                 isMoney: true,
                 link: 'Ver partidos',
-                path: "/candidates",
+                path: "/partys",
                 icon: <GroupAddOutlined
                     className="icon"
                     style={{
