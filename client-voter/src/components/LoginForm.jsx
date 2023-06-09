@@ -4,6 +4,7 @@ import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui
 import { AuthContext } from '../context/AuthContext'
 import api from '../api/api'
 
+
 const LoginForm = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -11,6 +12,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const { dispatch } = useContext(AuthContext);
+
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -22,7 +24,11 @@ const LoginForm = () => {
     }).then((res) => {
       const token = res.data.token;
       console.log(token);
-      dispatch({ type: "LOGIN", payload: token })      // eslint-disable-next-line no-unused-vars
+      dispatch({ type: "LOGIN", payload: token });     // eslint-disable-next-line no-unused-vars
+      navigate("/");
+
+
+
     }).catch((error) => {
       console.log(error.message)
     });

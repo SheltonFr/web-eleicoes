@@ -19,7 +19,7 @@ const SigupForm = () => {
       await createVoter({
         bi, name, password, username
       })
-      navigate('/')
+      navigate('/login')
     } catch (error) {
       console.log(error)
     }
